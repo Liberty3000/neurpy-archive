@@ -1,0 +1,37 @@
+{
+  "log":"info",
+  "device":"cuda",
+
+  "model":"StyleGAN",
+  "generator":"stylegan_G_1024x1024_v1",
+  "discriminator":"stylegan_D_1024x1024_v1",
+
+  "dataset":"ffhq",
+  "xdim_init":[3,4,4],
+  "xdim":[3,512,512],
+  "zdim":512,
+  "ddim":1,
+
+  "bsize":8,
+
+  "mixing_regularization":0,
+
+  "iterations":3000000,
+  "save_interval":4096,
+  "test_interval":4096,
+  "ntest":9,
+
+  "gradient_penalty":0,
+  "critics":1,
+  "epsilon_drift":0.001,
+
+  "goutputfn":"linear",
+  "gloss":"r1",
+  "goptim":{"amsgrad":{"lr":1e-3,"betas":[0.0,0.99],"weight_decay":0}},
+  "gwinit":"gaussian",
+
+  "doutputfn":"linear",
+  "dloss":"r1",
+  "doptim":{"amsgrad":{"lr":1e-3,"betas":[0.0,0.99],"weight_decay":0}},
+  "dwinit":"gaussian"
+}
