@@ -17,7 +17,7 @@ ___
 ### Adversarial Networks
 | Model | Reference | Link |
 |-------|-----------|------|
-| StyleGANv2 |  |  |
+| StyleGANv2 | Analyzing and Improving the Image Quality of StyleGAN | [arXiv:1912.04958](https://arxiv.org/abs/1912.04958) |
 | StarGANv2 | StarGAN v2: Diverse Image Synthesis for Multiple Domains | [arXiv:1912.01865](https://arxiv.org/abs/1912.01865) |
 | BigBiGAN | Large Scale Adversarial Representation Learning | [arXiv:1907.02544](https://arxiv.org/abs/1907.02544) |
 | FUNIT | Few-Shot Unsupervised Image-to-Image Translation | [arXiv:1905.01723](https://arxiv.org/abs/1905.01723) |
