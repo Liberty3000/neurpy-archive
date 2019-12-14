@@ -1,9 +1,6 @@
 from collections import defaultdict
-import copy, importlib, os, random, threading
-import imageio, PIL, matplotlib.pyplot as mp
-import torch as th, numpy as np
-from torch.autograd import Variable
-from torchvision.utils import save_image
+import threading, tqdm
+import torch as th
 from neurpy import util
 
 class Model(th.nn.Module):
@@ -11,9 +8,6 @@ class Model(th.nn.Module):
         super().__init__()
 
     def build(self):
-        raise NotImplementedError()
-
-    def compile(self):
         raise NotImplementedError()
 
     def encode(self):
@@ -42,7 +36,7 @@ class Model(th.nn.Module):
     def backward(self):
         raise NotImplementedError()
 
-    def forward_backward(self):
+    def forwardbackward(self):
         raise NotImplementedError()
 
     def toggle_parameters(self, G=True, D=False):
@@ -52,12 +46,9 @@ class Model(th.nn.Module):
             for p in self.D.parameters(): p.requires_grad = D
 
     def compile(self, config):
-        if 'dloss' in config.keys(): self.dloss = config.dloss
-        if 'gloss' in config.keys(): self.gloss = config.gloss
-        if 'goptim' in config.keys():
-            self.goptim = config.goptim(self.G.parameters())
-        if 'doptim' in config.keys():
-            self.doptim = config.doptim(self.D.parameters())
+        self.dloss, self.gloss = config.dloss, config.gloss
+        self.goptim = config.goptim(self.G.parameters())
+        self.doptim = config.doptim(self.D.parameters())
 
     def save(self, saver, separately=True):
         th.save(self.G.state_dict(), saver.format('g') + '.sd')
@@ -72,12 +63,12 @@ class Model(th.nn.Module):
         if isinstance(datagen, tuple): traingen, testgen = datagen
         else: traingen, testgen = datagen(config.xdim)
 
-        for epoch in range(1, 1 + config.epochs):
+        ebar = tqdm.tqdm(range(1, 1 + config.epochs))
+        for epoch in ebar:
             banner = 'Epoch {:4}/{:4}'.format(epoch, config.epochs)
-            print(banner)
-            ebar = enumerate(traingen, 1)
-
-            for batch,(xreal,_) in ebar:
+            ebar.set_description(banner)
+            bbar = tqdm.tqdm(enumerate(traingen, 1),total=len(traingen))
+            for batch,(xreal,_) in bbar:
                 self.forwardbackward(config, traingen, callback)
 
                 args = (batch + (len(traingen) * (epoch - 1)), testgen, config)
