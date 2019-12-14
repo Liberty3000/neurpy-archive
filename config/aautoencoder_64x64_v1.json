@@ -1,0 +1,38 @@
+{
+  "log":"info",
+  "device":"cpu",
+
+  "model":"AAutoencoder",
+  "encoder":"encoder_64x64",
+  "decoder":"decoder_64x64",
+  "discriminator":"discrim_64x64",
+
+  "dataset":"celeba",
+  "xdim":[3,64,64],
+  "zdim":512,
+  "ddim":1,
+
+  "rmin":1.0,
+  "rmax":1.0,
+  "fmin":0.0,
+  "fmax":0.0,
+
+  "epochs":32,
+  "bsize":32,
+
+  "save_interval":128,
+  "test_interval":128,
+  "ntest":16,
+
+  "zinterps":[32],
+  "xinterps":[16,32],
+
+  "goutputfn":"linear",
+  "gloss":"l1",
+  "encoder_optim":{"amsgrad":{"lr":3e-4, "betas":[0.0,0.999], "weight_decay":0}},
+  "decoder_optim":{"amsgrad":{"lr":3e-4, "betas":[0.0,0.999], "weight_decay":0}},
+
+  "dloss":"bce",
+  "doutputfn":"sigmoid",
+  "discrim_optim":{"amsgrad":{"lr":2e-4, "betas":[0.0,0.999], "weight_decay":0}}
+}
